@@ -31,13 +31,6 @@ function Achievements() {
                 2024
               </p>
             </div>
-            <div>
-              <h3 className="text-xl font-medium text-white">Pratap Vidya Mandir, Chopda</h3>
-              <p className="mt-1 text-gray-400">SSC (2018 - 2019)</p>
-              <p className="mt-1 text-gray-400">
-                Percentage - 86.20
-              </p>
-            </div>
           </div>
         </div>
       </section>

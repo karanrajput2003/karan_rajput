@@ -1,14 +1,14 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { Typewriter } from 'react-simple-typewriter'
-import SocialMedia from "../components/SocialMedia";
+// import SocialMedia from "../components/SocialMedia";
 import { Link } from "react-router-dom";
 
 function Home() {
   return (
     <>
       <Navbar />
-    <SocialMedia />
+{/*     <SocialMedia /> */}
       <section className="flex h-screen flex-col items-center justify-center px-6 md:px-12 bg-gray-900">
         <div className="max-w-3xl text-center">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">Hi, I'm Karan Rajput</h1>

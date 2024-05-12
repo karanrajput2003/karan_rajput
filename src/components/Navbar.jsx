@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
-
+import SocialMedia from "../components/SocialMedia";
 function Mypage() {
   return (
     <>
@@ -30,6 +30,7 @@ function Mypage() {
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
+      <SocialMedia />
     </>
   );
 }

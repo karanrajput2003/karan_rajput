@@ -15,7 +15,7 @@ function Home() {
           <p className="mt-4 text-xl text-gray-400">
           <Typewriter
             words={['Full Stack Developer']}
-            loop={1}
+            loop={5}
             cursor
             cursorStyle='.'
             typeSpeed={70}

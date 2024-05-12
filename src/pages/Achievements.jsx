@@ -19,20 +19,16 @@ function Achievements() {
           <div className="mt-8 space-y-8">
             <div>
               <h3 className="text-xl font-medium text-white">
-              Fr. Conceicao Rodrigues College of Engineering, Bandra
+             Achieved the 1st rank in the Computer Science And Electronics Department during the second year of study
               </h3>
               <p className="mt-1 text-gray-400">
-              Bachelor of Engineering in Electronics & Computer Science (2021 - 2025)
-              </p>
-              <p className="mt-1 text-gray-400">
-              CGPA - 9.75
+             2023
               </p>
             </div>
             <div>
-              <h3 className="text-xl font-medium text-white">Balmohan Higher Secondary School, Chopda</h3>
-              <p className="mt-1 text-gray-400">HSC (2019 - 2021)</p>
+              <h3 className="text-xl font-medium text-white">Secured the 3rd position in the Prakalp 2.0 Inter-College Project Competition</h3>
               <p className="mt-1 text-gray-400">
-                Percentage - 92
+                2024
               </p>
             </div>
             <div>

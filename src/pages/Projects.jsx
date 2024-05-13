@@ -8,7 +8,7 @@ function Projects() {
   return (
     <>
       <Navbar />
-      <section className="py-10 px-6 md:px-12 bg-gray-900">
+      <section className="py-10 px-6 md:px-12 bg-gray-900 education">
         <div className="container mx-auto max-w-3xl">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">

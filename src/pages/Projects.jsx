@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Project2 from '../assets/project2.png'
 import Project1 from '../assets/project1.png'
 import Project3 from '../assets/project3.png'
+import Project4 from '../assets/project4.png'
+
 function Projects() {
   return (
     <>
@@ -23,7 +25,7 @@ function Projects() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-8">
             <div className="bg-gray-800 rounded-lg overflow-hidden">
                 <img
-                  src={Project2}
+                  src={Project4}
                   //   width="400"
                   //   height="300"
                   alt="Project 2"

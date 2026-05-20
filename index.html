@@ -1,16 +1,801 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karan Rajput</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-      </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Karan Ajay Rajput — Backend Software Engineer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0a0a0a;
+    --bone: #f0ebe0;
+    --rust: #c94b1f;
+    --sage: #1e3a5f;
+    --gold: #b8962e;
+    --slate: #1a2332;
+    --cream: #faf8f3;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    background: var(--ink);
+    color: var(--bone);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--rust);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(240,235,224,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: left 0.12s ease, top 0.12s ease;
+  }
+
+  main { width: 100%; overflow-x: hidden; }
+
+  section[data-section] {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .section-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: clamp(2rem, 8vw, 5rem) clamp(2rem, 6vw, 5rem);
+    min-height: 100vh;
+    transform-origin: bottom left;
+    will-change: transform;
+  }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 13vw, 15rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+  }
+
+  .body-text {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1rem, 1.8vw, 1.4rem);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 58ch;
+    font-style: italic;
+  }
+
+  hr.rule {
+    border: none;
+    border-top: 1px solid currentColor;
+    opacity: 0.2;
+    margin: 0.25rem 0;
+  }
+
+  .grid-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1.5rem, 4vw, 4rem);
+  }
+
+  .grid-cell { flex: 1; min-width: 200px; }
+
+  .grid-cell-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    opacity: 0.5;
+  }
+
+  .grid-cell-text {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+    line-height: 1.75;
+    font-weight: 300;
+    opacity: 0.82;
+  }
+
+  #s1 { background: var(--ink); color: var(--bone); }
+  #s1 .accent { color: var(--rust); }
+  #s2 { background: var(--bone); color: var(--ink); }
+  #s3 { background: var(--slate); color: var(--bone); }
+  #s4 { background: var(--rust); color: var(--cream); }
+  #s5 { background: var(--sage); color: var(--cream); }
+  #s6 { background: var(--cream); color: var(--ink); }
+
+  .deco-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 18vw, 20rem);
+    line-height: 1;
+    opacity: 0.06;
+    position: absolute;
+    right: 4vw;
+    bottom: 3vw;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+    opacity: 0.55;
+    padding: 0.3em 0.8em;
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.75;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.2rem;
+    transition: opacity 0.2s;
+  }
+  .cta-link:hover { opacity: 1; }
+  .cta-link .arrow { transition: transform 0.3s; }
+  .cta-link:hover .arrow { transform: translateX(5px); }
+
+  .nav-dots {
+    position: fixed;
+    right: 1.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(240,235,224,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .nav-dot.active { background: var(--rust); transform: scale(1.6); }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-top: 0.2rem;
+  }
+
+  .email-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 6rem);
+    line-height: 1;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 2px solid currentColor;
+    transition: opacity 0.2s;
+    word-break: break-all;
+  }
+  .email-display:hover { opacity: 0.65; }
+
+  .socials { display: flex; gap: 1.75rem; flex-wrap: wrap; align-items: center; }
+
+  /* Experience timeline */
+  .exp-entry {
+    border-left: 1px solid currentColor;
+    opacity: 0.9;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .exp-entry::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 6px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  .exp-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 0.3rem;
+  }
+  .exp-company {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .exp-desc {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+    line-height: 1.7;
+    font-weight: 300;
+    opacity: 0.78;
+    max-width: 60ch;
+  }
+
+  /* Skill pills */
+  .skill-pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: currentColor;
+    color: transparent;
+    padding: 0.4em 1em;
+    margin: 0.25rem 0.25rem 0 0;
+    position: relative;
+  }
+  .skill-pill span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mix-blend-mode: difference;
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* simpler pill */
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+    opacity: 0.6;
+    padding: 0.35em 0.9em;
+    margin: 0.2rem 0.2rem 0 0;
+  }
+
+  #loader {
+    position: fixed; inset: 0;
+    background: var(--ink);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  #loader .loader-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    color: var(--bone);
+    letter-spacing: 0.08em;
+  }
+  #loader .loader-bar {
+    width: 220px; height: 1px;
+    background: rgba(240,235,224,0.12);
+    position: relative;
+  }
+  #loader .loader-progress {
+    position: absolute; left: 0; top: 0;
+    height: 100%;
+    background: var(--rust);
+    width: 0%;
+  }
+
+  @media (max-width: 640px) {
+    .display { font-size: clamp(4rem, 18vw, 7rem); }
+    .nav-dots { display: none; }
+    .deco-num { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-name">Karan Rajput</div>
+  <div class="loader-bar"><div class="loader-progress" id="progress"></div></div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav class="nav-dots" aria-label="Sections">
+  <div class="nav-dot active" data-target="s1"></div>
+  <div class="nav-dot" data-target="s2"></div>
+  <div class="nav-dot" data-target="s3"></div>
+  <div class="nav-dot" data-target="s4"></div>
+  <div class="nav-dot" data-target="s5"></div>
+  <div class="nav-dot" data-target="s6"></div>
+</nav>
+
+<main>
+
+  <!-- ── 01 HERO ── -->
+  <section data-section id="s1">
+    <div class="section-inner">
+      <div class="deco-num">01</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+        <span class="label">Backend Software Engineer — Mumbai, India</span>
+        <span class="label" id="clock"></span>
+      </div>
+
+      <hr class="rule" />
+
+      <div>
+        <div class="display">
+          Karan<br />
+          Rajput<span class="accent">.</span>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:2rem;">
+        <p class="body-text">
+          Backend engineer building enterprise-grade systems at Morgan Stanley via Wissen Technology. 
+          I turn complex financial data pipelines into elegant, scalable microservices.
+        </p>
+        <div class="socials">
+          <a href="https://github.com/karan-ajay-rajput" target="_blank" class="cta-link">GitHub <span class="arrow">→</span></a>
+          <a href="https://linkedin.com/in/karan-ajay-rajput" target="_blank" class="cta-link">LinkedIn <span class="arrow">→</span></a>
+          <a href="https://leetcode.com" target="_blank" class="cta-link">LeetCode <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 EXPERIENCE ── -->
+  <section data-section id="s2">
+    <div class="section-inner" style="color: var(--ink);">
+      <div class="deco-num" style="color:var(--ink);">02</div>
+      <span class="label">Career — 2025–Present</span>
+      <hr class="rule" />
+
+      <div class="display">Work</div>
+
+      <hr class="rule" />
+
+      <div style="display:flex; flex-direction:column; gap:2.5rem;">
+
+        <div class="exp-entry">
+          <div class="exp-role">April 2026 – Present &nbsp;·&nbsp; Associate Software Engineer</div>
+          <div class="exp-company">Wissen Technology &nbsp;·&nbsp; Morgan Stanley</div>
+          <div class="exp-desc">
+            Working on firm-wide data architecture changes to reduce dependency on multiple databases, impacting 
+            several downstream microservices. Developing SQL queries and data mappings aligned with new upstream 
+            schema changes, and enhancing backend business logic for report generation.
+          </div>
+          <div style="margin-top:0.8rem;">
+            <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">SQL</span><span class="tag">Microservices</span>
+          </div>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-role">June 2025 – March 2026 &nbsp;·&nbsp; Trainee Analyst</div>
+          <div class="exp-company">Wissen Technology &nbsp;·&nbsp; Morgan Stanley</div>
+          <div class="exp-desc">
+            Led migration of legacy stored-procedure report systems to microservices — replicated complex business 
+            logic for 15+ financial reports. Collaborated with QA and business teams to validate data accuracy. 
+            Deployed to production on time, earning client appreciation.
+          </div>
+          <div style="margin-top:0.8rem;">
+            <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">MyBatis</span><span class="tag">Snowflake</span><span class="tag">MongoDB</span>
+          </div>
+        </div>
+
+        <div class="exp-entry">
+          <div class="exp-role">January 2025 – June 2025 &nbsp;·&nbsp; Software Intern</div>
+          <div class="exp-company">Wissen Technology &nbsp;·&nbsp; Morgan Stanley</div>
+          <div class="exp-desc">
+            Designed and built Stats Portal end-to-end — a centralized analytics platform tracking report generation 
+            workflows across services and databases. Integrated Splunk APIs for real-time log visualisation and 
+            cleared client interview for Morgan Stanley.
+          </div>
+          <div style="margin-top:0.8rem;">
+            <span class="tag">Java</span><span class="tag">Angular</span><span class="tag">Spring Boot</span><span class="tag">Splunk</span><span class="tag">SQL</span>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="rule" />
+      <a href="https://linkedin.com/in/karan-ajay-rajput" target="_blank" class="cta-link">Full profile on LinkedIn <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <!-- ── 03 PROJECTS ── -->
+  <section data-section id="s3">
+    <div class="section-inner">
+      <div class="deco-num">03</div>
+      <span class="label">Personal Projects</span>
+      <hr class="rule" />
+
+      <div class="display">
+        Built<br />
+        This
+      </div>
+
+      <hr class="rule" />
+
+      <div class="grid-row">
+        <div class="grid-cell">
+          <div class="grid-cell-label">Aarogya Bharat &nbsp;·&nbsp; July 2024 – Present</div>
+          <div class="grid-cell-text">
+            A telehealth portal connecting patients and doctors for virtual consultations. Features an 
+            audio-to-audio AI chatbot for medical recommendations, QR-code patient records, role-based login, 
+            appointment scheduling, and secure WebRTC video calls.
+          </div>
+          <div style="margin-top:0.9rem;">
+            <span class="pill">React</span>
+            <span class="pill">Node.js</span>
+            <span class="pill">MongoDB</span>
+            <span class="pill">WebRTC</span>
+            <span class="pill">Gemini API</span>
+            <span class="pill">Whisper API</span>
+          </div>
+          <div style="margin-top:1rem;">
+            <a href="https://github.com/karan-ajay-rajput" target="_blank" class="cta-link">GitHub <span class="arrow">→</span></a>
+          </div>
+        </div>
+
+        <div class="grid-cell">
+          <div class="grid-cell-label">Mental Health Support &nbsp;·&nbsp; Feb 2024 – Jun 2024</div>
+          <div class="grid-cell-text">
+            A mental health platform with an innovative AI audio chatbot powered by Gemini API. 
+            Converts speech to text via Whisper API, generates follow-up questions, and includes 
+            a daily journaling feature with secure database storage.
+          </div>
+          <div style="margin-top:0.9rem;">
+            <span class="pill">React</span>
+            <span class="pill">Express.js</span>
+            <span class="pill">MongoDB</span>
+            <span class="pill">Gemini API</span>
+            <span class="pill">Whisper API</span>
+            <span class="pill">Tailwind</span>
+          </div>
+          <div style="margin-top:1rem;">
+            <a href="https://github.com/karan-ajay-rajput" target="_blank" class="cta-link">GitHub <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 04 SKILLS ── -->
+  <section data-section id="s4">
+    <div class="section-inner">
+      <div class="deco-num">04</div>
+      <span class="label">Technical Arsenal</span>
+      <hr class="rule" />
+
+      <div class="display">
+        Skills
+      </div>
+
+      <hr class="rule" />
+
+      <div class="grid-row">
+        <div class="grid-cell">
+          <div class="grid-cell-label">Languages</div>
+          <div>
+            <span class="pill">Java</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">C</span>
+            <span class="pill">C++</span>
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+          </div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-label">Frameworks</div>
+          <div>
+            <span class="pill">Spring Boot</span>
+            <span class="pill">React.js</span>
+            <span class="pill">Angular</span>
+            <span class="pill">Node.js</span>
+            <span class="pill">Express.js</span>
+            <span class="pill">Tailwind CSS</span>
+          </div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-label">Data &amp; Databases</div>
+          <div>
+            <span class="pill">SQL</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">MongoDB</span>
+            <span class="pill">Snowflake</span>
+            <span class="pill">MyBatis</span>
+            <span class="pill">JPA</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="grid-row">
+        <div class="grid-cell">
+          <div class="grid-cell-label">Tools &amp; DevOps</div>
+          <div>
+            <span class="pill">Git</span>
+            <span class="pill">GitHub</span>
+            <span class="pill">Gradle</span>
+            <span class="pill">Postman</span>
+            <span class="pill">JUnit</span>
+            <span class="pill">Splunk</span>
+          </div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-label">Concepts</div>
+          <div>
+            <span class="pill">Microservices</span>
+            <span class="pill">REST APIs</span>
+            <span class="pill">OOP</span>
+            <span class="pill">System Design</span>
+            <span class="pill">DSA</span>
+          </div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-label">LeetCode</div>
+          <div class="stat-num">300+</div>
+          <div class="stat-label">Problems solved</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 05 EDUCATION & AWARDS ── -->
+  <section data-section id="s5">
+    <div class="section-inner">
+      <div class="deco-num">05</div>
+      <span class="label">Education &amp; Recognition</span>
+      <hr class="rule" />
+
+      <div class="display">
+        Edu&shy;ca&shy;tion
+      </div>
+
+      <hr class="rule" />
+
+      <div class="grid-row">
+        <div class="grid-cell">
+          <div class="grid-cell-label">BE — Computer Science &amp; Electronics</div>
+          <div class="exp-company" style="font-size:clamp(1.2rem,2vw,1.8rem); margin-bottom:0.4rem;">Fr. C. Rodrigues College of Engineering</div>
+          <div class="grid-cell-text">2021 – 2025 &nbsp;·&nbsp; CGPA: <strong>9.55</strong></div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-label">HSC</div>
+          <div class="exp-company" style="font-size:clamp(1.2rem,2vw,1.8rem); margin-bottom:0.4rem;">Balmohan Higher Secondary School</div>
+          <div class="grid-cell-text">2019 – 2021 &nbsp;·&nbsp; 92%</div>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="grid-cell-label">Awards &amp; Recognition</div>
+      <div class="grid-row">
+        <div class="grid-cell">
+          <div class="grid-cell-text">🥇 1st rank — CS &amp; Electronics Dept (2nd year)</div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-text">🥈 2nd rank — CS &amp; Electronics Dept (3rd &amp; 4th year)</div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-text">🥉 3rd place — Prakalp 2.0 Inter-College Project Competition</div>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="grid-cell-label">Certifications</div>
+      <div class="grid-row">
+        <div class="grid-cell">
+          <div class="grid-cell-text">The Complete 2023 Web Development Bootcamp — Udemy (Feb 2023)</div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-text">JavaScript Essential Training — LinkedIn Learning (Jan 2022)</div>
+        </div>
+        <div class="grid-cell">
+          <div class="grid-cell-text">CSS Essential Training — LinkedIn Learning (Jan 2022)</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 06 CONTACT ── -->
+  <section data-section id="s6">
+    <div class="section-inner" style="color: var(--ink);">
+      <div class="deco-num" style="color:var(--ink);">06</div>
+      <span class="label">Get In Touch</span>
+      <hr class="rule" />
+
+      <div class="display">
+        Let's<br />
+        Talk
+      </div>
+
+      <hr class="rule" />
+
+      <p class="body-text" style="color:var(--ink);">
+        Open to backend engineering roles, full-stack collaborations, and interesting problems 
+        in distributed systems or fintech. Based in Mumbai — available globally.
+      </p>
+
+      <hr class="rule" />
+
+      <a href="tel:+919373380377" class="email-display">+91 93733 80377</a>
+
+      <hr class="rule" />
+
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:2rem; align-items:flex-end;">
+        <div class="socials">
+          <a href="https://github.com/karan-ajay-rajput" target="_blank" class="cta-link" style="color:var(--ink);">GitHub <span class="arrow">→</span></a>
+          <a href="https://linkedin.com/in/karan-ajay-rajput" target="_blank" class="cta-link" style="color:var(--ink);">LinkedIn <span class="arrow">→</span></a>
+          <a href="https://leetcode.com" target="_blank" class="cta-link" style="color:var(--ink);">LeetCode <span class="arrow">→</span></a>
+        </div>
+        <span class="label" style="color:var(--ink);">© 2025 Karan Ajay Rajput</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Clock */
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }) + ' IST';
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  /* Cursor */
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  let rx = 0, ry = 0;
+  (function loop() {
+    rx += (mx - rx) * 0.13;
+    ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  /* Loader */
+  const progressEl = document.getElementById('progress');
+  let pct = 0;
+  const iv = setInterval(() => {
+    pct += Math.random() * 22;
+    if (pct >= 100) { pct = 100; clearInterval(iv); }
+    progressEl.style.width = pct + '%';
+    if (pct >= 100) {
+      setTimeout(() => {
+        gsap.to('#loader', {
+          yPercent: -100, duration: 1, ease: 'expo.inOut',
+          onComplete: () => {
+            document.getElementById('loader').style.display = 'none';
+            initScroll();
+          }
+        });
+      }, 350);
+    }
+  }, 100);
+
+  /* Scroll */
+  function initScroll() {
+    const sections = Array.from(document.querySelectorAll('[data-section]'));
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    sections.forEach((section, i) => {
+      gsap.set(section, { zIndex: i + 1 });
+      const inner = section.querySelector('.section-inner');
+      if (!inner) return;
+
+      if (i > 0 && !reducedMotion) {
+        gsap.set(inner, { rotation: 25, transformOrigin: 'bottom left' });
+        gsap.to(inner, {
+          rotation: 0, ease: 'none',
+          scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 30%', scrub: true }
+        });
+      }
+
+      if (i < sections.length - 1 && !reducedMotion) {
+        ScrollTrigger.create({
+          trigger: section, start: 'bottom bottom', end: 'bottom top',
+          pin: true, pinSpacing: false,
+        });
+      }
+
+      ScrollTrigger.create({
+        trigger: section, start: 'top 55%', end: 'bottom 45%',
+        onEnter: () => setDot(i),
+        onEnterBack: () => setDot(i),
+      });
+    });
+
+    ScrollTrigger.refresh();
+
+    gsap.from('#s1 .display', { y: 80, opacity: 0, duration: 1.2, ease: 'expo.out', delay: 0.2 });
+    gsap.from('#s1 .body-text', { y: 40, opacity: 0, duration: 1, ease: 'expo.out', delay: 0.5 });
+    gsap.from('.nav-dots', { opacity: 0, duration: 1, delay: 0.8 });
+  }
+
+  function setDot(idx) {
+    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  document.querySelectorAll('.nav-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
 </html>
